@@ -14,8 +14,8 @@ const List = (props) => {
         <div className="col mt-4">
         {
             items.map((item, index) => (
-                <div className="card col-12 d-flex flex-row mt-4" key={index}>
-                <div className="card-body col-6">
+                <div className="card col-12 mt-4" key={index}>
+                <div className="card-body col-12">
                     <h5 className="card-title"><strong>Code:</strong> {item.TicketInfo.Code}</h5>
                     <h5 className="card-title"><strong>Name:</strong> {item.TicketInfo.Name}</h5>
                     <p className="card-text">
@@ -24,12 +24,12 @@ const List = (props) => {
                     </p>
                 </div> 
                 <br/>
-                <div className="card-body col-6 d-flex flex-wrap">
+                <div className="card-body col-12 d-flex flex-wrap">
                 {
                     item.TicketInfo.ImageList.map((image, index) => (
                         <div key={index}>    
                         {image.Type === 'S' &&
-                        <div className="col-4"><img src={image.Url} className='rounded mb-2' alt={image.Description} /></div>
+                        <img src={image.Url} className='rounded mb-2 mr-2' alt={image.Description} />
                     }
                     </div>
                     ))
