@@ -1,12 +1,12 @@
-import React from 'react'; 
+import React from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import './App.css';
 
 
-const RAW_DATA_TOKEN = 'grant_type=password&username=test1@test2.com&password=Aa234567%21'; 
+const RAW_DATA_TOKEN = 'private-info';
 const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
-const API_DOMAIN = PROXY_URL+"http://travellogix.api.test.conceptsol.com";
+const API_DOMAIN = PROXY_URL+"private-domain";
 
 class App extends React.Component {
   state = {
@@ -17,13 +17,13 @@ class App extends React.Component {
   }
 
   getTokenAuth = async () => {
-    const api_token_call = await fetch(`${API_DOMAIN}/Token`, 
-    { 
+    const api_token_call = await fetch(`${API_DOMAIN}/Token`,
+    {
       method: 'post',
       body: RAW_DATA_TOKEN,
       mode: 'cors'
     });
-    
+
     const token_auth = await api_token_call.json();
 
     this.setState({
@@ -34,30 +34,30 @@ class App extends React.Component {
   getList = async (e) => {
     e.preventDefault();
     const token = this.state.token_auth;
-    
+
     var dateFrom = e.target.elements.datefrom.value;
     var dateTo = e.target.elements.dateto.value;
 
     if(dateFrom && dateTo){
 
     this.setState({'isLoading': true, 'error': false});
-      
+
     dateFrom = new Date(dateFrom).toLocaleDateString("en-US");
     dateTo = new Date(dateTo).toLocaleDateString("en-US");
 
-    const payloader = { 
-      "Language": "ENG", 
-      "Currency": "USD", 
-      "destination": "MCO", 
-      "DateFrom": dateFrom, 
-      "DateTO": dateTo, 
-      "Occupancy": { 
-                    "AdultCount": "1", 
-                    "ChildCount": "1", 
-                    "ChildAges": ["10"] 
-      } 
+    const payloader = {
+      "Language": "ENG",
+      "Currency": "USD",
+      "destination": "MCO",
+      "DateFrom": dateFrom,
+      "DateTO": dateTo,
+      "Occupancy": {
+                    "AdultCount": "1",
+                    "ChildCount": "1",
+                    "ChildAges": ["10"]
+      }
 
-    } 
+    }
 
 
     await fetch(`${API_DOMAIN}/api/Ticket/Search`,
@@ -78,7 +78,7 @@ class App extends React.Component {
             error: result.Message,
             items: []
           });
-        } else {          
+        } else {
           this.setState({
             isLoading: false,
             items: result.Result,
@@ -99,7 +99,7 @@ class App extends React.Component {
   componentDidMount() {
     this.getTokenAuth();
   }
-  
+
   render() {
     return (
       <div className="wrapper">
@@ -107,7 +107,7 @@ class App extends React.Component {
           <div className="container">
             <div className="row">
               <Form getList={this.getList} />
-              <List 
+              <List
               error={this.state.error}
               isLoading={this.state.isLoading}
               items={this.state.items}
